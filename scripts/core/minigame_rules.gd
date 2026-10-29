@@ -26,6 +26,12 @@ static func force_params(cfg: GameConfig, forza: int, intensity: int) -> Diction
 	}
 
 
+## Posizione dell'ago (0..1) dopo `t` secondi: va e viene lungo la barra.
+static func needle_position(t: float, speed: float) -> float:
+	var p := fmod(t * speed, 2.0)
+	return p if p <= 1.0 else 2.0 - p
+
+
 ## Dentro la zona: da 0.6 sul bordo a 1.0 al centro. Fuori: scende fino a 0 entro "falloff".
 static func force_score(cfg: GameConfig, hit_pos: float, zone_half_width: float) -> float:
 	var victory := cfg.f("resolution.victory_score")
@@ -66,3 +72,32 @@ static func charm_score(cfg: GameConfig, chosen_mood: String, true_mood: String,
 	if chosen_mood == true_mood:
 		return 1.0
 	return cfg.f("minigames.charm.wrong_answer_base") + cfg.f("minigames.charm.wrong_answer_per_point") * fascino
+
+
+## Prepara un round: una frase per ciascun umore, in ordine casuale, più gli indizi concessi dal Fascino.
+## "discarded" è l'indice di una frase sbagliata da scartare (-1 se nessuna);
+## "cry" è il grido della folla con la parola chiave (vuoto se l'indizio non spetta).
+static func charm_round(cfg: GameConfig, mood: String, hints: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	var options: Array[Dictionary] = []
+	for m in Defs.MOODS:
+		var pool: Array = cfg.charm["phrases"][m]
+		options.append({"mood": m, "text": pool[rng.randi_range(0, pool.size() - 1)]["text"]})
+	for n in range(options.size() - 1, 0, -1):
+		var j := rng.randi_range(0, n)
+		var tmp := options[n]
+		options[n] = options[j]
+		options[j] = tmp
+
+	var discarded := -1
+	if hints.get("discard_wrong_phrase", false):
+		var wrong: Array[int] = []
+		for n in options.size():
+			if options[n]["mood"] != mood:
+				wrong.append(n)
+		discarded = wrong[rng.randi_range(0, wrong.size() - 1)]
+
+	var cry := {}
+	if hints.get("highlight_keyword", false):
+		var cries: Array = cfg.charm["crowd_cries"][mood]
+		cry = cries[rng.randi_range(0, cries.size() - 1)]
+	return {"options": options, "discarded": discarded, "cry": cry}

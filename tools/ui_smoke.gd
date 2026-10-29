@@ -25,13 +25,25 @@ func _run() -> void:
 	main._screen._open_sheet(first.id)
 	await _shot("03_azioni")
 	main._on_confront(first.id, Defs.FASCINO)
-	await _shot("04_minigioco")
-	main._screen._confirm()
+	await _shot("04_fascino")
+	await _auto_play()
 	await _shot("05_corte")
 	main._screen.answered.emit(false)
 	await _shot("06_mappa_resoconto")
 
-	# Ricchezza dal segnaposto, poi gioca fino alla fine alternando osservazioni e scontri.
+	# Uno screenshot per ciascuno degli altri due minigiochi.
+	var approaches := [Defs.FORZA, Defs.RICCHEZZA, Defs.FASCINO]
+	for step in [[Defs.FORZA, "08_forza"], [Defs.RICCHEZZA, "09_ricchezza"]]:
+		var active: Array[Outbreak] = main.engine.state.active_outbreaks()
+		if main.engine.state.is_over() or active.is_empty() or not main.engine.can_confront(active[0].id, step[0]):
+			continue
+		main._on_confront(active[0].id, step[0])
+		await _shot(step[1])
+		await _auto_play()
+		main._screen.answered.emit(false)
+		await process_frame
+
+	# Poi gioca fino alla fine alternando osservazioni e scontri con tutti e tre i minigiochi.
 	var turns := 0
 	while not main.engine.state.is_over() and turns < 40:
 		turns += 1
@@ -41,16 +53,24 @@ func _run() -> void:
 		elif turns % 3 == 0 and not active[0].revealed:
 			main._screen.observe_requested.emit(active[0].id)
 		else:
-			var approach := Defs.RICCHEZZA if main.engine.can_confront(active[0].id, Defs.RICCHEZZA) else Defs.FORZA
+			var approach: String = approaches[turns % 3]
+			if not main.engine.can_confront(active[0].id, approach):
+				approach = Defs.FORZA
 			main._on_confront(active[0].id, approach)
-			await process_frame
-			main._screen._confirm()
-			await process_frame
+			await _auto_play()
 			main._screen.answered.emit(turns % 2 == 0)
 		await process_frame
 	await _shot("07_fine")
 	print("UI percorsa: %d turni, esito %s" % [turns, main.engine.state.result])
 	quit()
+
+
+## Fa giocare da solo il minigioco aperto e attende che emetta il risultato.
+func _auto_play() -> void:
+	var minigame: Control = main._screen
+	minigame.auto_play()
+	await minigame.finished
+	await process_frame
 
 
 func _shot(name: String) -> void:

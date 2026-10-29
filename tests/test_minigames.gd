@@ -50,3 +50,33 @@ func test_charm() -> void:
 	check(not MinigameRules.charm_hints(cfg, 3)["discard_wrong_phrase"], "nessun indizio a 3")
 	check(MinigameRules.charm_hints(cfg, 5)["discard_wrong_phrase"], "frase scartata a 5")
 	check(MinigameRules.charm_hints(cfg, 8)["highlight_keyword"], "parola chiave a 8")
+
+
+func test_needle_bounces() -> void:
+	check_eq(MinigameRules.needle_position(0.0, 1.0), 0.0, "parte da sinistra")
+	check(is_equal_approx(MinigameRules.needle_position(0.5, 1.0), 0.5), "a metà corsa")
+	check(is_equal_approx(MinigameRules.needle_position(1.5, 1.0), 0.5), "torna indietro")
+	check(is_equal_approx(MinigameRules.needle_position(2.0, 1.0), 0.0), "di nuovo a sinistra")
+	check(is_equal_approx(MinigameRules.needle_position(0.5, 2.0), 1.0), "più veloce, arriva in fondo prima")
+
+
+func test_charm_round_without_hints() -> void:
+	var cfg := fresh_config()
+	var rng := RandomNumberGenerator.new()
+	var r := MinigameRules.charm_round(cfg, "paura", MinigameRules.charm_hints(cfg, 3), rng)
+	var moods: Array = r["options"].map(func(o): return o["mood"])
+	moods.sort()
+	check_eq(moods, ["orgoglio", "paura", "rabbia"], "una frase per umore")
+	check_eq(r["discarded"], -1, "nessuna frase scartata")
+	check(r["cry"].is_empty(), "nessun grido")
+
+
+func test_charm_round_hints() -> void:
+	var cfg := fresh_config()
+	var rng := RandomNumberGenerator.new()
+	for seed_value in 30:
+		rng.seed = seed_value
+		var r := MinigameRules.charm_round(cfg, "orgoglio", MinigameRules.charm_hints(cfg, 8), rng)
+		check(r["discarded"] >= 0, "frase scartata")
+		check(r["options"][r["discarded"]]["mood"] != "orgoglio", "mai la frase giusta")
+		check(String(r["cry"]["text"]).contains(r["cry"]["keyword"]), "grido con parola chiave")

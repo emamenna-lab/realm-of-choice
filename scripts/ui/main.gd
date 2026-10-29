@@ -6,13 +6,12 @@ const MenuScreen := preload("res://scripts/ui/menu_screen.gd")
 const MapScreen := preload("res://scripts/ui/map_screen.gd")
 const CourtScreen := preload("res://scripts/ui/court_screen.gd")
 const EndScreen := preload("res://scripts/ui/end_screen.gd")
-const Placeholder := preload("res://scripts/ui/minigame_placeholder.gd")
 
-## Minigioco per ciascun approccio. La fase 3 sostituisce i segnaposto.
+## Minigioco per ciascun approccio.
 const MINIGAMES := {
-	"forza": Placeholder,
-	"ricchezza": Placeholder,
-	"fascino": Placeholder,
+	"forza": preload("res://scripts/ui/minigames/force_bar.gd"),
+	"ricchezza": preload("res://scripts/ui/minigames/wealth_offer.gd"),
+	"fascino": preload("res://scripts/ui/minigames/charm_answer.gd"),
 }
 
 var cfg: GameConfig

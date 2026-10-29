@@ -82,7 +82,7 @@ func wait_day() -> void:
 func begin_confront(outbreak_id: int, approach: String) -> Dictionary:
 	assert(can_confront(outbreak_id, approach), "begin_confront(): azione non valida")
 	var o := state.get_outbreak(outbreak_id)
-	confront = {"outbreak_id": o.id, "approach": approach, "intensity": o.intensity}
+	confront = {"outbreak_id": o.id, "type_id": o.type_id, "approach": approach, "intensity": o.intensity}
 	match approach:
 		Defs.FORZA:
 			confront.merge(MinigameRules.force_params(cfg, state.queen.get_stat(Defs.FORZA), o.intensity))
@@ -91,7 +91,9 @@ func begin_confront(outbreak_id: int, approach: String) -> Dictionary:
 			confront["coins"] = state.queen.coins
 		Defs.FASCINO:
 			confront["mood"] = o.mood
+			confront["fascino"] = state.queen.get_stat(Defs.FASCINO)
 			confront["hints"] = MinigameRules.charm_hints(cfg, state.queen.get_stat(Defs.FASCINO))
+			confront["round"] = MinigameRules.charm_round(cfg, o.mood, confront["hints"], rng)
 	phase = Phase.MINIGAME
 	return confront.duplicate(true)
 
