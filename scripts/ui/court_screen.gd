@@ -47,7 +47,7 @@ func _outcome_panel() -> Control:
 		if result["extinguished"]:
 			v.add_child(UiKit.label("%s si spegne." % name))
 		else:
-			v.add_child(UiKit.label("%s perde vigore: intensità %s." % [name, UiKit.pips(o.intensity)]))
+			v.add_child(UiKit.label("%s perde vigore: intensità %d di 5." % [name, o.intensity]))
 	else:
 		var extra := int(engine.cfg.value("resolution.extra_days")[outcome])
 		var text := "%s resiste." % name

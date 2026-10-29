@@ -13,14 +13,14 @@ func _ready() -> void:
 	col.add_child(UiKit.label("Contro %s" % outbreak_name(), UiKit.FONT_BODY, UiKit.DIM, HORIZONTAL_ALIGNMENT_CENTER))
 	col.add_child(UiKit.spacer())
 	col.add_child(UiKit.label("Quanto oro basterà a comprare la pace?", UiKit.FONT_BODY, UiKit.INK, HORIZONTAL_ALIGNMENT_CENTER))
-	col.add_child(UiKit.label("Intensità  " + UiKit.pips(params["intensity"]), UiKit.FONT_BODY, UiKit.INK, HORIZONTAL_ALIGNMENT_CENTER))
+	col.add_child(UiKit.intensity_row(params["intensity"], 5, true))
 
 	_offer_label = UiKit.label("", 96, UiKit.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	col.add_child(_offer_label)
 
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 24)
-	var minus := UiKit.button("−", _change.bind(-1))
+	var minus := UiKit.button("-", _change.bind(-1))
 	var plus := UiKit.button("+", _change.bind(1))
 	for b in [minus, plus]:
 		b.custom_minimum_size = Vector2(0, 140)

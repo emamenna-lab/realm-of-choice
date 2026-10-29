@@ -151,8 +151,30 @@ static func spacer() -> Control:
 	return c
 
 
-static func pips(intensity: int, max_value := 5) -> String:
-	return "●".repeat(intensity) + "○".repeat(maxi(0, max_value - intensity))
+## "Intensità" seguita da cinque pallini disegnati (non glifi: il font web non li ha).
+static func intensity_row(intensity: int, max_value := 5, centered := false) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if centered:
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+	var l := label("Intensità ", FONT_BODY, INK)
+	l.autowrap_mode = TextServer.AUTOWRAP_OFF
+	l.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	row.add_child(l)
+	for n in max_value:
+		var dot := Panel.new()
+		dot.custom_minimum_size = Vector2(24, 24)
+		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var style := StyleBoxFlat.new()
+		style.set_corner_radius_all(12)
+		style.bg_color = INK if n < intensity else Color(0, 0, 0, 0)
+		style.border_color = INK
+		style.set_border_width_all(2)
+		dot.add_theme_stylebox_override("panel", style)
+		row.add_child(dot)
+	return row
 
 
 static func type_name(cfg: GameConfig, type_id: String, inline := false) -> String:

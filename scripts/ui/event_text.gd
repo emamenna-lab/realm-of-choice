@@ -31,7 +31,7 @@ static func describe(cfg: GameConfig, e: Dictionary) -> String:
 			for stat in e["changes"]:
 				var delta: int = e["changes"][stat]
 				var name: String = "Monete" if stat == Defs.RICCHEZZA else UiKit.APPROACH_NAMES[stat]
-				parts.append("%s %s%d" % [name, "+" if delta > 0 else "−", absi(delta)])
+				parts.append("%s %s%d" % [name, "+" if delta > 0 else "-", absi(delta)])
 			if e["responded"]:
 				return "Hai accolto la proposta del Cortigiano." + (" " + ", ".join(parts) + "." if not parts.is_empty() else "")
 			if not parts.is_empty():
