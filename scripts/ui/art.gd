@@ -3,7 +3,9 @@ extends RefCounted
 ## Immagini del gioco e piccoli costruttori grafici. I file in assets/ escono da
 ## tools/prepare_assets.py; se un'immagine manca la schermata funziona lo stesso, senza.
 
-const MAP := "res://assets/bg_map.jpg"
+const SKY := "res://assets/bg_sky.jpg"
+const CITY := "res://assets/bg_city.png"
+const BALUSTRADE := "res://assets/bg_balcony.png"
 const COURT := "res://assets/bg_court.jpg"
 const COURTIER := "res://assets/courtier.png"
 const QUEEN := "res://assets/queen.png"
@@ -28,13 +30,6 @@ static func cover(path: String) -> TextureRect:
 	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	r.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	return r
-
-
-## Dove cade, sullo schermo, il punto (u, v) di un'immagine disegnata con cover() in un'area grande view.
-static func cover_point(image_size: Vector2, view: Vector2, uv: Vector2) -> Vector2:
-	var s := maxf(view.x / image_size.x, view.y / image_size.y)
-	var offset := (view - image_size * s) / 2
-	return offset + uv * image_size * s
 
 
 ## Macchia di luce radiale, bianca: si colora con modulate.

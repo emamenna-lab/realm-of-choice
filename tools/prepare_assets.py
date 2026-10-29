@@ -83,10 +83,58 @@ def chroma_key(img: Image.Image) -> Image.Image:
     return out.crop(out.getbbox())
 
 
+def checker_mask(img: Image.Image) -> Image.Image:
+    """Pixel del finto sfondo a scacchi (grigio chiaro e bianco, senza colore): 255 dove c'è scacchiera."""
+    a = np.asarray(img.convert("RGB")).astype(int)
+    neutral = (a.max(axis=2) - a.min(axis=2)) <= 14
+    bright = a.min(axis=2) >= 170
+    return Image.fromarray(((neutral & bright) * 255).astype(np.uint8), "L")
+
+
+def checker_key(img: Image.Image, from_top: bool) -> Image.Image:
+    """Toglie la scacchiera disegnata dentro il JPG. Con from_top tiene solo la scacchiera collegata
+    al bordo alto (il cielo), così i riflessi chiari dentro il soggetto restano."""
+    mask = checker_mask(img)
+    # Chiude i buchi tra quadri: le linee di confine tra i quadri non sono né bianche né grigie.
+    mask = mask.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.MinFilter(5))
+    if from_top:
+        filled = mask.copy()
+        for x in range(0, filled.width, 8):
+            if filled.getpixel((x, 0)) == 255:
+                ImageDraw.floodfill(filled, (x, 0), 128)
+        sky = filled.point(lambda v: 255 if v == 128 else 0)
+        # Le finestre del castello mostrano la scacchiera ma non toccano il bordo:
+        # sopra l'orizzonte si toglie anche quella racchiusa, se occupa più di qualche pixel.
+        horizon = int(img.height * 0.3)
+        enclosed = mask.filter(ImageFilter.MinFilter(5)).filter(ImageFilter.MaxFilter(5))
+        top = Image.new("L", mask.size, 0)
+        top.paste(enclosed.crop((0, 0, mask.width, horizon)), (0, 0))
+        mask = Image.fromarray(np.maximum(np.asarray(sky), np.asarray(top)))
+    else:
+        # Solo le zone ampie: piccoli riflessi chiari nel legno non sono scacchiera.
+        mask = mask.filter(ImageFilter.MinFilter(9)).filter(ImageFilter.MaxFilter(9))
+    # Allarga un poco il trasparente per mangiare il bordo chiaro, poi sfuma.
+    hole = mask.filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(1.2))
+    out = img.convert("RGBA")
+    out.putalpha(hole.point(lambda v: 255 - v))
+    return out
+
+
+def balustrade_only(img: Image.Image) -> Image.Image:
+    """Dal balcone col tavolo tiene solo la balaustra: il tavolo, a tutta larghezza, coprirebbe
+    metà della città. Il bordo superiore della balaustra è un arco leggero; sopra si cancella."""
+    a = np.asarray(img).astype(float)
+    h, w = a.shape[:2]
+    yy, xx = np.mgrid[0:h, 0:w]
+    crest = 806 + 38 * np.sin(np.pi * xx / (w - 1))
+    keep = np.clip((yy - crest + 1) / 3, 0, 1)
+    a[:, :, 3] *= keep
+    out = Image.fromarray(a.astype(np.uint8), "RGBA")
+    return out.crop((0, 790, w, h))
+
+
 def main() -> None:
     OUT.mkdir(exist_ok=True)
-
-    Image.open(RAW / "map.jpg").convert("RGB").save(OUT / "bg_map.jpg", quality=88)
 
     sheet = Image.open(RAW / "outbreak_sheet.jpg")
     circles = find_emblems(sheet)
@@ -103,6 +151,11 @@ def main() -> None:
     # Sullo schermo occupa al massimo ~550 px di altezza: 700 bastano anche per schermi densi.
     queen = queen.resize((round(queen.width * 700 / queen.height), 700), Image.LANCZOS)
     queen.save(OUT / "queen.png")
+
+    # Livelli per la parallasse: cielo, città senza cielo, balaustra in primo piano.
+    Image.open(RAW / "sky.jpg").convert("RGB").save(OUT / "bg_sky.jpg", quality=85)
+    checker_key(Image.open(RAW / "city_checker.jpg"), from_top=True).save(OUT / "bg_city.png")
+    balustrade_only(checker_key(Image.open(RAW / "balcony_checker.jpg"), from_top=False)).save(OUT / "bg_balcony.png")
     print("emblemi:", circles)
 
 

@@ -1,5 +1,5 @@
 extends Control
-## Un focolaio sulla mappa: emblema, bagliore che pulsa e fiamme che crescono con l'intensità,
+## Un focolaio sulla mappa: emblema, bagliore che pulsa, fumo e scintille che crescono con l'intensità,
 ## pallini e nome sotto. Il centro dell'emblema sta nell'origine del nodo.
 
 signal tapped(outbreak_id: int)
@@ -35,6 +35,8 @@ func _ready() -> void:
 	var pulse := glow.create_tween().set_loops().set_trans(Tween.TRANS_SINE)
 	pulse.tween_property(glow, "scale", Vector2.ONE * 1.12, period / 2)
 	pulse.tween_property(glow, "scale", Vector2.ONE * 0.92, period / 2)
+
+	add_child(_smoke(heat))
 
 	var button := TextureButton.new()
 	button.texture_normal = Art.emblem(outbreak.type_id)
@@ -79,6 +81,33 @@ func _flames(heat: float) -> CPUParticles2D:
 	var ramp := Gradient.new()
 	ramp.set_color(0, Color(1, 0.85, 0.45, 0.9))
 	ramp.set_color(1, Color(0.8, 0.2, 0.05, 0))
+	p.color_ramp = ramp
+	return p
+
+
+## Fumo scuro che sale lento dietro l'emblema e si allarga svanendo.
+func _smoke(heat: float) -> CPUParticles2D:
+	var p := CPUParticles2D.new()
+	# Sotto tutti gli emblemi e le scritte (anche dei focolai vicini), sopra la città.
+	p.z_index = -1
+	p.amount = 4 + int(8 * heat)
+	p.lifetime = 2.4
+	p.preprocess = p.lifetime
+	p.position = Vector2(0, -EMBLEM_SIZE * 0.2)
+	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	p.emission_rect_extents = Vector2(EMBLEM_SIZE * 0.2, 4)
+	p.direction = Vector2.UP
+	p.spread = 12
+	p.gravity = Vector2(6, -8)
+	p.initial_velocity_min = 25
+	p.initial_velocity_max = 40 + 20 * heat
+	p.texture = Art.glow_texture()
+	p.scale_amount_min = 0.5
+	p.scale_amount_max = 0.8 + 0.4 * heat
+	var ramp := Gradient.new()
+	ramp.set_color(0, Color(0.12, 0.09, 0.08, 0.0))
+	ramp.set_color(1, Color(0.2, 0.17, 0.15, 0.0))
+	ramp.add_point(0.2, Color(0.1, 0.08, 0.07, 0.6 + 0.25 * heat))
 	p.color_ramp = ramp
 	return p
 
