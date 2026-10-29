@@ -1,0 +1,47 @@
+{
+  "cards": [
+    { "id": "c01", "label": "utile", "stat": "forza",
+      "text": "Maestà, sui monti del nord vive un fabbro che tempra l'acciaio nel ghiaccio. Concedetemi un giorno, e le vostre lance non conosceranno rivali." },
+    { "id": "c02", "label": "utile", "stat": "fascino",
+      "text": "Un poeta errante canta di voi nelle osterie, ma con versi zoppi. Ricevetelo a corte: insegnategli la vostra storia, ed essa correrà più veloce del vento." },
+    { "id": "c03", "label": "utile", "stat": "saggezza",
+      "text": "Gli archivi della torre custodiscono le cronache dei re che vi precedettero. Un giorno tra quelle pergamene, e vedrete ciò che nessuno vede." },
+    { "id": "c04", "label": "utile", "stat": "ricchezza",
+      "text": "Una carovana di mercanti d'oriente attende alle porte. Riceveteli con gli onori dovuti, e i loro forzieri si apriranno per la corona." },
+    { "id": "c05", "label": "utile", "stat": "forza",
+      "text": "I veterani della Guerra delle Nevi giacciono dimenticati negli ospizi. Chiamateli per nome, Maestà, e torneranno a marciare per voi." },
+    { "id": "c06", "label": "utile", "stat": "fascino",
+      "text": "Le campane della cattedrale tacciono da un anno. Fatele suonare per voi, in una festa solenne, e il popolo ricorderà chi è la sua regina." },
+
+    { "id": "c07", "label": "lusinga", "stat": "forza",
+      "text": "Mai si vide sovrana più temuta! Lasciate che i vostri araldi lo gridino da ogni torre, e i ribelli tremeranno al solo udirlo." },
+    { "id": "c08", "label": "lusinga", "stat": "fascino",
+      "text": "Il vostro ritratto, Maestà, dipinto dal più grande dei maestri, esposto nella piazza maggiore! Chi potrebbe resistere a tale splendore?" },
+    { "id": "c09", "label": "lusinga", "stat": "saggezza",
+      "text": "Gli astrologi di corte hanno letto il vostro nome tra le stelle. Ascoltate le loro profezie: nessun segreto vi resterà celato." },
+    { "id": "c10", "label": "lusinga", "stat": "forza",
+      "text": "Una parata, Maestà! Mille cavalieri in armatura lucente sotto le finestre dei ribelli. Che vedano la forza della corona e chinino il capo." },
+    { "id": "c11", "label": "lusinga", "stat": "fascino",
+      "text": "Un banchetto per i notabili della città, con vini dei vostri antenati. Brinderanno al vostro nome, e la loro lealtà sarà vostra." },
+
+    { "id": "c12", "label": "avvelenata", "stat": "forza",
+      "text": "I mercenari delle Isole Rosse offrono le loro spade per un prezzo onesto. Gente rude, certo, ma con loro al fianco nessuna rivolta resisterà." },
+    { "id": "c13", "label": "avvelenata", "stat": "ricchezza",
+      "text": "Una nuova tassa sul sale, Maestà, lieve come una piuma. Il popolo nemmeno se ne accorgerà, e i vostri forzieri torneranno a cantare." },
+    { "id": "c14", "label": "avvelenata", "stat": "fascino",
+      "text": "Promettete al popolo una festa di sette giorni alla fine della crisi. Le promesse non costano nulla, e i cuori si scaldano subito." },
+    { "id": "c15", "label": "avvelenata", "stat": "saggezza",
+      "text": "Un uomo della vecchia polizia segreta conosce ogni sussurro della città. Il suo passato è oscuro, ma chi meglio di lui saprebbe ascoltare?" },
+    { "id": "c16", "label": "avvelenata", "stat": "forza",
+      "text": "Armate le milizie dei quartieri, Maestà! Chi difende la propria casa difende la corona. Che ogni cittadino diventi un vostro soldato." },
+
+    { "id": "c17", "label": "provocazione", "stat": "forza",
+      "text": "Il duca di Valdorso dice in giro che una donna sul trono è un regno senza spada. Lascerete che un tale insulto resti senza risposta?" },
+    { "id": "c18", "label": "provocazione", "stat": "forza",
+      "text": "Il re dei paesi d'oltre il fiume vi manda in dono una conocchia e un fuso. Dice che sono strumenti più adatti alle vostre mani." },
+    { "id": "c19", "label": "provocazione", "stat": "forza",
+      "text": "Un cavaliere straniero ha piantato la sua lancia davanti alle porte del castello e sfida il campione della regina. Chi risponderà?" },
+    { "id": "c20", "label": "provocazione", "stat": "forza",
+      "text": "Nelle taverne si canta una canzone su di voi, Maestà, e non è una canzone gentile. Volete sapere chi l'ha scritta?" }
+  ]
+}

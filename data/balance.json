@@ -1,0 +1,88 @@
+{
+  "days_total": 12,
+
+  "stability": {
+    "initial": 60,
+    "max": 100,
+    "win_threshold": 30,
+    "daily_damage_multiplier": 0.4,
+    "recover_on_extinguish": 0
+  },
+
+  "queen": {
+    "initial": { "forza": 3, "fascino": 3, "saggezza": 3, "ricchezza": 10 },
+    "stat_min": 1,
+    "stat_max": 10
+  },
+
+  "outbreaks": {
+    "initial_count_min": 4,
+    "initial_count_max": 5,
+    "initial_intensity_min": 2,
+    "initial_intensity_max": 4,
+    "intensity_max": 5,
+    "max_active": 8,
+    "nature_weights": { "estingue": 1, "cresce": 1, "trappola": 1 },
+    "estingue_decay_per_day": 1,
+    "cresce_growth": 1,
+    "cresce_every_days": 2,
+    "trap_spawn_intensity": 2,
+    "rancor": {
+      "type": "rancore",
+      "chance_on_force_win": 0.3,
+      "intensity": 1,
+      "nature": "cresce",
+      "weakness": "fascino"
+    }
+  },
+
+  "resolution": {
+    "victory_score": 0.6,
+    "light_defeat_score": 0.3,
+    "medium_defeat_score": 0.1,
+    "victory_reduction": 1,
+    "weakness_victory_reduction": 4,
+    "extra_days": { "sconfitta_lieve": 0, "sconfitta_media": 1, "sconfitta_netta": 2 }
+  },
+
+  "observe": {
+    "reveal_card_min_saggezza": 6
+  },
+
+  "minigames": {
+    "force": {
+      "zone_half_width_base": 0.03,
+      "zone_half_width_per_point": 0.02,
+      "falloff": 0.3,
+      "needle_speed_base": 0.6,
+      "needle_speed_per_intensity": 0.25,
+      "duration_seconds": 6
+    },
+    "wealth": {
+      "threshold_per_intensity": 2,
+      "threshold_variance": 1
+    },
+    "charm": {
+      "hint_discard_min_fascino": 5,
+      "hint_keyword_min_fascino": 8,
+      "wrong_answer_base": 0.0,
+      "wrong_answer_per_point": 0.04
+    }
+  },
+
+  "disturber": {
+    "respond_day_cost": 1,
+    "ignore_day_cost": 0,
+    "useful_bonus": 2,
+    "flattery_bonus": 1,
+    "flattery_days": 2,
+    "poisoned_bonus": 2,
+    "poisoned_delay_days": 2,
+    "poisoned_stat_penalty": 2,
+    "poisoned_outbreak_intensity": 2,
+    "poisoned_outbreak_chance": 0.5,
+    "provocation_ignore_fascino_loss": 1,
+    "provocation_respond_forza_gain": 1,
+    "coins_per_wealth_point": 1
+  }
+}
