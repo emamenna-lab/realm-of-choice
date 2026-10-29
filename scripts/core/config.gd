@@ -6,6 +6,8 @@ const BALANCE_PATH := "res://data/balance.json"
 const OUTBREAK_TYPES_PATH := "res://data/outbreak_types.json"
 const CARDS_PATH := "res://data/disturber_cards.json"
 const CHARM_PATH := "res://data/charm_phrases.json"
+const COURT_PATH := "res://data/court.json"
+const CHRONICLE_PATH := "res://data/chronicle.json"
 
 ## Chiavi che devono esistere in balance.json. Un errore qui è meglio di un crash a metà partita.
 const REQUIRED_KEYS: Array[String] = [
@@ -43,6 +45,10 @@ var outbreak_types: Array = []
 var cards: Array = []
 ## Frasi della regina e grida della folla per il minigioco del Fascino, per umore.
 var charm: Dictionary = {}
+## Presentazioni del disturbatore a corte.
+var court: Dictionary = {}
+## Frammenti della cronaca finale.
+var chronicle: Dictionary = {}
 var errors: Array[String] = []
 
 
@@ -52,6 +58,8 @@ static func load_default() -> GameConfig:
 	cfg.outbreak_types = _load_json(OUTBREAK_TYPES_PATH, cfg.errors).get("types", [])
 	cfg.cards = _load_json(CARDS_PATH, cfg.errors).get("cards", [])
 	cfg.charm = _load_json(CHARM_PATH, cfg.errors)
+	cfg.court = _load_json(COURT_PATH, cfg.errors)
+	cfg.chronicle = _load_json(CHRONICLE_PATH, cfg.errors)
 	cfg.validate()
 	for e in cfg.errors:
 		push_error(e)
@@ -107,6 +115,9 @@ func validate() -> void:
 		if not c.has("text"):
 			errors.append("disturber_cards.json: carta senza testo %s" % c.get("id", "?"))
 
+	if court.get("intros", []).is_empty():
+		errors.append("court.json: nessuna presentazione del Cortigiano")
+
 	for mood in Defs.MOODS:
 		if charm.get("phrases", {}).get(mood, []).is_empty():
 			errors.append("charm_phrases.json: nessuna frase per l'umore '%s'" % mood)
@@ -148,6 +159,13 @@ func type_by_id(type_id: String) -> Dictionary:
 		if t["id"] == type_id:
 			return t
 	return {}
+
+
+## Nome di un tipo di focolaio. Con `inline` l'articolo iniziale va in minuscolo,
+## per usarlo dentro una frase ("contro la Febbre Grigia").
+func type_name(type_id: String, inline := false) -> String:
+	var name: String = type_by_id(type_id).get("name", type_id)
+	return name.left(1).to_lower() + name.substr(1) if inline else name
 
 
 func spawnable_types() -> Array:

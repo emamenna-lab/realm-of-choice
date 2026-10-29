@@ -76,6 +76,8 @@ func _outbreak_card(o: Outbreak) -> Control:
 	# Un pulsante che contiene un'intera scheda: tutta la superficie è toccabile.
 	var b := Button.new()
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# PASS: il trascinamento arriva anche allo ScrollContainer, così la lista scorre al tocco.
+	b.mouse_filter = Control.MOUSE_FILTER_PASS
 	b.pressed.connect(_open_sheet.bind(o.id))
 	var margin := MarginContainer.new()
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -85,7 +87,7 @@ func _outbreak_card(o: Outbreak) -> Control:
 	var v := UiKit.vbox(6)
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(UiKit.label(UiKit.type_name(engine.cfg, o.type_id), UiKit.FONT_BODY, UiKit.GOLD))
-	v.add_child(UiKit.label("Intensità  " + UiKit.pips(o.intensity), UiKit.FONT_BODY, UiKit.INK))
+	v.add_child(UiKit.intensity_row(o.intensity))
 	if o.revealed:
 		v.add_child(UiKit.label("%s · debolezza: %s" % [UiKit.NATURE_NAMES[o.nature], UiKit.APPROACH_NAMES[o.weakness]], UiKit.FONT_SMALL, UiKit.DIM))
 	else:
@@ -114,7 +116,7 @@ func _open_sheet(outbreak_id: int) -> void:
 	var type_def := engine.cfg.type_by_id(o.type_id)
 	v.add_child(UiKit.label(type_def.get("name", o.type_id), UiKit.FONT_TITLE, UiKit.GOLD))
 	v.add_child(UiKit.label(type_def.get("description", ""), UiKit.FONT_BODY, UiKit.INK))
-	v.add_child(UiKit.label("Intensità  " + UiKit.pips(o.intensity), UiKit.FONT_BODY, UiKit.INK))
+	v.add_child(UiKit.intensity_row(o.intensity))
 
 	v.add_child(UiKit.label("Affrontalo con…", UiKit.FONT_SMALL, UiKit.DIM))
 	v.add_child(UiKit.button("Forza (%d)" % q.get_stat(Defs.FORZA), _confront.bind(o.id, Defs.FORZA), engine.can_confront(o.id, Defs.FORZA)))

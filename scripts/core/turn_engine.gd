@@ -162,6 +162,7 @@ func answer_court(respond: bool) -> Dictionary:
 	var card := current_card
 	var stat: String = card["stat"]
 	var effect := {"card_id": card["id"], "label": card["label"], "responded": respond}
+	var before := state.queen.to_view()
 	match card["label"]:
 		Defs.CARD_USEFUL:
 			if respond:
@@ -178,6 +179,13 @@ func answer_court(respond: bool) -> Dictionary:
 				state.queen.add_base(Defs.FORZA, cfg.i("disturber.provocation_respond_forza_gain"))
 			else:
 				state.queen.add_base(Defs.FASCINO, -cfg.i("disturber.provocation_ignore_fascino_loss"))
+	# Variazioni visibili subito. Gli effetti ritardati del veleno restano nascosti.
+	var changes := {}
+	var after := state.queen.to_view()
+	for k in after:
+		if after[k] != before[k]:
+			changes[k] = after[k] - before[k]
+	effect["changes"] = changes
 	state.log_event("proposta", effect)
 	current_card = {}
 	confront = {}

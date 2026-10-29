@@ -7,7 +7,7 @@ extends "res://scripts/ui/minigames/minigame_base.gd"
 func _ready() -> void:
 	var col := UiKit.screen_column(self, true)
 	col.add_child(UiKit.title("Prova di Fascino"))
-	col.add_child(UiKit.label("Davanti a %s" % outbreak_name(), UiKit.FONT_BODY, UiKit.DIM, HORIZONTAL_ALIGNMENT_CENTER))
+	col.add_child(UiKit.label("Contro %s" % outbreak_name(), UiKit.FONT_BODY, UiKit.DIM, HORIZONTAL_ALIGNMENT_CENTER))
 
 	var round_data: Dictionary = params["round"]
 	var cry: Dictionary = round_data["cry"]

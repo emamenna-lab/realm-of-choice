@@ -16,7 +16,10 @@ func _ready() -> void:
 	var col := UiKit.screen_column(self, true)
 	col.add_child(_outcome_panel())
 	col.add_child(UiKit.label("A corte", UiKit.FONT_BODY, UiKit.GOLD))
-	col.add_child(UiKit.label("Il Cortigiano si inchina fino a sfiorare il pavimento.", UiKit.FONT_SMALL, UiKit.DIM))
+	var intros: Array = engine.cfg.court["intros"]
+	# Scelta stabile per carta e giorno, così rigiocare un seme mostra le stesse scene.
+	var intro: String = intros[absi(hash([result["card"]["id"], engine.state.day])) % intros.size()]
+	col.add_child(UiKit.label(intro, UiKit.FONT_SMALL, UiKit.DIM))
 
 	var card: Dictionary = result["card"]
 	var p := UiKit.panel(UiKit.PARCHMENT)
@@ -44,7 +47,7 @@ func _outcome_panel() -> Control:
 		if result["extinguished"]:
 			v.add_child(UiKit.label("%s si spegne." % name))
 		else:
-			v.add_child(UiKit.label("%s perde vigore: intensità %s." % [name, UiKit.pips(o.intensity)]))
+			v.add_child(UiKit.label("%s perde vigore: intensità %d di 5." % [name, o.intensity]))
 	else:
 		var extra := int(engine.cfg.value("resolution.extra_days")[outcome])
 		var text := "%s resiste." % name
@@ -53,6 +56,6 @@ func _outcome_panel() -> Control:
 		v.add_child(UiKit.label(text))
 	for id in result["spawned"]:
 		var spawned := engine.state.get_outbreak(id)
-		v.add_child(UiKit.label("Divampa %s." % UiKit.type_name(engine.cfg, spawned.type_id), UiKit.FONT_BODY, UiKit.DANGER))
+		v.add_child(UiKit.label("Divampa %s." % UiKit.type_name(engine.cfg, spawned.type_id, true), UiKit.FONT_BODY, UiKit.DANGER))
 	p.add_child(v)
 	return p
