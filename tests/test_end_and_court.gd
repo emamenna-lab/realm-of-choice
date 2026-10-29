@@ -114,6 +114,10 @@ func test_poisoned_card_strikes_after_two_days() -> void:
 	var sagg := e.state.queen.get_stat(Defs.SAGGEZZA)
 	check(fasc == 1 or sagg == 1, "un'altra stat è calata: fascino %d, saggezza %d" % [fasc, sagg])
 	check(e.state.pending_effects.is_empty(), "effetto consumato")
+	var poison_events := e.state.events.filter(func(ev): return ev["kind"] == "veleno")
+	check_eq(poison_events.size(), 1, "evento registrato")
+	check_eq(poison_events[0].get("effect"), "stat", "tipo di effetto nel registro")
+	check(EventText.describe(e.cfg, poison_events[0]) != "", "il resoconto lo racconta")
 
 
 func test_poisoned_card_can_spawn_outbreak() -> void:

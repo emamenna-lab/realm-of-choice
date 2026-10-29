@@ -23,3 +23,9 @@ jobs:
         run: ./godot --headless --path . -s tests/run_tests.gd
       - name: Simulazione di bilanciamento
         run: ./godot --headless --path . -s tools/simulate.gd -- 1000
+      - name: Percorso dell'interfaccia
+        timeout-minutes: 3
+        run: |
+          ./godot --headless --path . -s tools/ui_smoke.gd 2>&1 | tee ui.log
+          grep -q "UI percorsa" ui.log
+          ! grep -q "SCRIPT ERROR" ui.log
