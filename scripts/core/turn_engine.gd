@@ -254,7 +254,7 @@ func _tick_pending_effects() -> void:
 			_spawn(factory.create(state, cfg.i("disturber.poisoned_outbreak_intensity"), "veleno"), {})
 		else:
 			state.queen.add_base(e["stat"], -cfg.i("disturber.poisoned_stat_penalty"))
-		state.log_event("veleno", e)
+		state.log_event("veleno", {"effect": e["kind"], "stat": e["stat"], "card_id": e["card_id"]})
 
 
 # --- Utilità ---------------------------------------------------------------

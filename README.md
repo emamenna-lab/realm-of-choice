@@ -26,3 +26,12 @@ godot --headless --path . -s tools/simulate.gd -- 3000 stability.daily_damage_mu
 ```
 
 Il simulatore gioca migliaia di partite con strategie automatiche (passiva, casuale, avida, saggia, selettiva) e stampa vittorie, crolli e stabilità finale. Serve a confrontare configurazioni, non a prevedere il risultato di un giocatore umano.
+
+## Interfaccia
+
+`scenes/main.tscn` è la scena principale. Le schermate (`scripts/ui/`) sono costruite da codice e leggono lo stato dal `TurnEngine`. I minigiochi sono intercambiabili: ognuno riceve i parametri da `begin_confront()` ed emette `finished(score, coins_spent)`; la tabella `MINIGAMES` in `main.gd` dice quale usare per ogni approccio.
+
+```sh
+godot --headless --path . -s tools/ui_smoke.gd        # percorre tutte le schermate fino a fine partita
+godot --path . --resolution 720x1280 -s tools/ui_smoke.gd -- /cartella/screenshot   # idem, con screenshot
+```
