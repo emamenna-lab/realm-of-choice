@@ -40,3 +40,12 @@ Il simulatore gioca migliaia di partite con strategie automatiche (passiva, casu
 godot --headless --path . -s tools/ui_smoke.gd        # percorre tutte le schermate fino a fine partita
 godot --path . --resolution 720x1280 -s tools/ui_smoke.gd -- /cartella/screenshot   # idem, con screenshot
 ```
+
+## Esportazione
+
+`export_presets.cfg` contiene due preset, entrambi con `data/*.json` incluso:
+
+- **Web**: single-thread, quindi funziona su qualsiasi hosting statico senza intestazioni speciali. Il workflow `web.yml` lo esporta e lo pubblica sul branch `gh-pages` a ogni push su `main`: https://emamenna-lab.github.io/realm-of-choice/
+- **Android**: verticale, arm64 e armv7, `com.emamenna.realmofchoice`. Per generare l'APK da Godot servono i template di export, l'Android SDK e un keystore (quello di debug va bene per provarlo): *Editor → Impostazioni dell'editor → Export → Android*, poi *Progetto → Esporta → Android*.
+
+Il renderer è Compatibility (OpenGL ES 3 / WebGL 2): è l'unico supportato sul web e il più compatibile sui telefoni.

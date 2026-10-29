@@ -1,0 +1,48 @@
+name: Pubblica versione web
+
+# Esporta il gioco per il browser e lo pubblica sul branch gh-pages (GitHub Pages).
+on:
+  push:
+    branches: [main, fase-4-5]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: web
+  cancel-in-progress: true
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: 4.7.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica Godot e i template di export
+        run: |
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable"
+          curl -sSL -o godot.zip "$base/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q godot.zip && mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" godot
+          curl -sSL -o templates.tpz "$base/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          dest="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          mkdir -p "$dest"
+          unzip -q -j templates.tpz "templates/web_nothreads_*" "templates/version.txt" -d "$dest"
+          rm templates.tpz
+      - name: Esporta per il web
+        run: |
+          ./godot --headless --path . --import
+          mkdir -p build/web
+          ./godot --headless --path . --export-release "Web" build/web/index.html
+          touch build/web/.nojekyll
+          ls -la build/web
+      - name: Pubblica su gh-pages
+        run: |
+          cd build/web
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Versione web da ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" gh-pages

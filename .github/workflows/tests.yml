@@ -20,7 +20,10 @@ jobs:
       - name: Importa il progetto
         run: ./godot --headless --path . --import
       - name: Test
-        run: ./godot --headless --path . -s tests/run_tests.gd
+        run: |
+          ./godot --headless --path . -s tests/run_tests.gd 2>&1 | tee tests.log
+          grep -q " 0 verifiche fallite" tests.log
+          ! grep -q "SCRIPT ERROR" tests.log
       - name: Simulazione di bilanciamento
         run: ./godot --headless --path . -s tools/simulate.gd -- 1000
       - name: Percorso dell'interfaccia

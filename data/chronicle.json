@@ -1,0 +1,66 @@
+{
+  "opening": {
+    "vittoria": [
+      "Per dodici giorni la regina tenne il regno sull'orlo dell'abisso, e il regno non cadde.",
+      "Dodici albe sorsero sulla città in fiamme, e alla dodicesima la corona era ancora al suo posto.",
+      "Le cronache narrano di dodici giorni di fuoco, e di una regina che li attraversò tutti."
+    ],
+    "sconfitta_crollo": [
+      "Al giorno {giorno} le mura del regno cedettero, e la corona rotolò nella polvere.",
+      "Il giorno {giorno} non vide il tramonto: la città si sollevò, e il trono rimase vuoto.",
+      "Al giorno {giorno} l'ultima fiaccola della corte si spense."
+    ],
+    "sconfitta_regno_debole": [
+      "Il regno vide la dodicesima alba, ma era un regno che a stento si reggeva in piedi.",
+      "Dodici giorni passarono, e la corona restò, leggera come una foglia secca.",
+      "Alla fine dei dodici giorni la regina sedeva ancora sul trono, sopra un regno in frantumi."
+    ]
+  },
+  "victory_by_hand": {
+    "forza": [
+      "{nome} cadde sotto il ferro della regina.",
+      "Contro {nome} la regina mandò le sue lance, e le lance prevalsero."
+    ],
+    "ricchezza": [
+      "{nome} si placò davanti all'oro della corona.",
+      "L'oro dei forzieri reali bastò a spegnere {nome}."
+    ],
+    "fascino": [
+      "{nome} si spense alla voce della regina.",
+      "La regina parlò, e {nome} tacque."
+    ]
+  },
+  "more_victories_one": [
+    " Un altro fuoco conobbe la stessa sorte.",
+    " Dopo di quello, un altro fuoco si spense per sua mano."
+  ],
+  "more_victories": [
+    " Altri {n} fuochi conobbero la stessa sorte.",
+    " Dopo di quello, altri {n} fuochi si spensero per sua mano."
+  ],
+  "no_victories": [
+    "Nessun fuoco si spense per mano della regina.",
+    "La regina scese in campo, ma nessun fuoco si piegò davanti a lei."
+  ],
+  "still_burning": [
+    "{nome} arde ancora.",
+    "Oltre le mura, {nome} brucia ancora.",
+    "{nome} brucia ancora, e brucerà a lungo."
+  ],
+  "extinguished_alone": [
+    "{nome} si spense da sé, senza che nessuno lo combattesse.",
+    "{nome} morì da solo, come un fuoco senza legna."
+  ],
+  "court_accepted_once": [
+    "Una sola volta la regina accolse le parole del Cortigiano.",
+    "Il Cortigiano fu ascoltato una volta soltanto."
+  ],
+  "court_accepted": [
+    "Il Cortigiano fu ascoltato {n} volte, e ogni volta parlò di gloria.",
+    "Per {n} volte la regina accolse le parole del Cortigiano."
+  ],
+  "court_none": [
+    "Il Cortigiano parlò molto, e fu congedato ogni volta.",
+    "Le proposte del Cortigiano restarono tutte senza risposta."
+  ]
+}

@@ -159,3 +159,30 @@ func test_card_label_hidden_by_default() -> void:
 	var o := add_outbreak(e, 3, Defs.NATURE_TRAPPOLA)
 	e.begin_confront(o.id, Defs.FASCINO)
 	check_eq(e.resolve_confront(0.45)["card"]["label"], "", "etichetta nascosta")
+
+
+func test_deck_distribution() -> void:
+	var counts := {}
+	for c in fresh_config().cards:
+		counts[c["label"]] = counts.get(c["label"], 0) + 1
+	check_eq(counts, {"utile": 6, "lusinga": 5, "avvelenata": 5, "provocazione": 4}, "30/25/25/20 su 20 carte")
+
+
+func test_court_reports_visible_changes_only() -> void:
+	var cfg := fresh_config()
+	cfg.balance["disturber"]["poisoned_outbreak_chance"] = 0.0
+	var e := empty_engine(cfg)
+	var o := add_outbreak(e, 3, Defs.NATURE_TRAPPOLA, Defs.FASCINO)
+	force_next_card(e, "c12")
+	e.begin_confront(o.id, Defs.FASCINO)
+	e.resolve_confront(0.45)
+	var effect := e.answer_court(true)
+	check_eq(effect["changes"], {"forza": 2}, "solo il +2 immediato, non il veleno")
+
+
+func test_deck_reshuffles() -> void:
+	var e := empty_engine()
+	var seen := {}
+	for n in 45:
+		seen[e.deck.draw()["id"]] = true
+	check_eq(seen.size(), 20, "dopo un giro completo il mazzo si rimescola")

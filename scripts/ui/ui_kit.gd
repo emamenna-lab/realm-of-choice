@@ -155,5 +155,5 @@ static func pips(intensity: int, max_value := 5) -> String:
 	return "●".repeat(intensity) + "○".repeat(maxi(0, max_value - intensity))
 
 
-static func type_name(cfg: GameConfig, type_id: String) -> String:
-	return cfg.type_by_id(type_id).get("name", type_id)
+static func type_name(cfg: GameConfig, type_id: String, inline := false) -> String:
+	return cfg.type_name(type_id, inline)

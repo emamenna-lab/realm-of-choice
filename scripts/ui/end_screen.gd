@@ -1,5 +1,5 @@
 extends Control
-## Fine partita. La cronaca epica arriva nella fase 5; per ora un riepilogo asciutto.
+## Fine partita: titolo, cronaca epica della partita, seme per rigiocarla.
 
 signal restart_requested
 
@@ -21,13 +21,13 @@ func _ready() -> void:
 	var col := UiKit.screen_column(self)
 	col.add_child(UiKit.spacer())
 	col.add_child(UiKit.title(TITLES[s.result]))
-	var extinguished := s.events.filter(func(e): return e["kind"] == "spento").size()
-	var lines := [
-		"Giorno %d. Stabilità %d." % [s.day, s.stability],
-		"Focolai spenti: %d. Ancora accesi: %d." % [extinguished, s.active_outbreaks().size()],
-		"Seme della partita: %d" % s.seed_value,
-	]
-	for line in lines:
-		col.add_child(UiKit.label(line, UiKit.FONT_BODY, UiKit.INK, HORIZONTAL_ALIGNMENT_CENTER))
+	col.add_child(UiKit.label("Giorno %d · stabilità %d" % [s.day, s.stability], UiKit.FONT_SMALL, UiKit.DIM, HORIZONTAL_ALIGNMENT_CENTER))
+	var p := UiKit.panel(UiKit.PARCHMENT)
+	var v := UiKit.vbox(16)
+	for line in Chronicle.generate(engine.cfg, s):
+		v.add_child(UiKit.label(line, UiKit.FONT_BODY, UiKit.INK))
+	p.add_child(v)
+	col.add_child(p)
+	col.add_child(UiKit.label("Seme della partita: %d" % s.seed_value, UiKit.FONT_SMALL, UiKit.DIM, HORIZONTAL_ALIGNMENT_CENTER))
 	col.add_child(UiKit.spacer())
 	col.add_child(UiKit.button("Nuova partita", func(): restart_requested.emit()))

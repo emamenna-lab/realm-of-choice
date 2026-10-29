@@ -17,9 +17,9 @@ func setup(config: GameConfig, confront_params: Dictionary) -> void:
 	params = confront_params
 
 
-## Il nome del focolaio affrontato, per i titoli.
+## Il nome del focolaio affrontato, da usare dentro una frase.
 func outbreak_name() -> String:
-	return UiKit.type_name(cfg, params["type_id"])
+	return UiKit.type_name(cfg, params["type_id"], true)
 
 
 func make_result_label() -> Label:
