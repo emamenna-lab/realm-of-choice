@@ -3,7 +3,7 @@ name: Pubblica versione web
 # Esporta il gioco per il browser e lo pubblica sul branch gh-pages (GitHub Pages).
 on:
   push:
-    branches: [main, fase-4-5]
+    branches: [main, fase-4-5, grafica]
   workflow_dispatch:
 
 permissions:

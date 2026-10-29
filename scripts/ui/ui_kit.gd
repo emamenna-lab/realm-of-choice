@@ -20,6 +20,7 @@ const GUTTER := 32
 
 const APPROACH_NAMES := {"forza": "Forza", "ricchezza": "Ricchezza", "fascino": "Fascino", "saggezza": "Saggezza"}
 const NATURE_NAMES := {"estingue": "Si estingue da sé", "cresce": "Cresce se ignorato", "trappola": "Trappola"}
+const NATURE_SHORT := {"estingue": "Si spegne", "cresce": "Cresce", "trappola": "Trappola"}
 const OUTCOME_NAMES := {
 	"vittoria": "Vittoria",
 	"sconfitta_lieve": "Sconfitta lieve",
