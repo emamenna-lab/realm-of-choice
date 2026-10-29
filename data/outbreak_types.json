@@ -1,0 +1,53 @@
+{
+  "types": [
+    {
+      "id": "rivolta_pane",
+      "name": "La Rivolta del Pane",
+      "description": "Nei quartieri bassi le madri levano al cielo forni vuoti, e il loro grido scuote le mura.",
+      "moods": ["rabbia", "paura"],
+      "spawnable": true
+    },
+    {
+      "id": "sciopero_gilde",
+      "name": "Lo Sciopero delle Gilde",
+      "description": "Le botteghe tacciono, i martelli giacciono: le gilde pretendono ciò che giurano sia loro.",
+      "moods": ["orgoglio", "rabbia"],
+      "spawnable": true
+    },
+    {
+      "id": "complotto_nobiliare",
+      "name": "Il Complotto dei Nobili",
+      "description": "Dietro sorrisi di velluto, casate antiche affilano lame e contano voti.",
+      "moods": ["orgoglio", "paura"],
+      "spawnable": true
+    },
+    {
+      "id": "setta_fanatica",
+      "name": "La Setta del Fuoco",
+      "description": "Profeti scalzi annunciano la fine dei tempi, e le piazze li ascoltano.",
+      "moods": ["paura", "rabbia"],
+      "spawnable": true
+    },
+    {
+      "id": "epidemia",
+      "name": "La Febbre Grigia",
+      "description": "Il morbo cammina di casa in casa, e dietro di lui cammina il terrore.",
+      "moods": ["paura"],
+      "spawnable": true
+    },
+    {
+      "id": "diserzione_guardia",
+      "name": "La Guardia Disertrice",
+      "description": "Chi giurò di difendere la corona ora ne volta le spalle, armi in pugno.",
+      "moods": ["orgoglio", "rabbia"],
+      "spawnable": true
+    },
+    {
+      "id": "rancore",
+      "name": "Il Rancore",
+      "description": "Dove passò il ferro della regina, resta una ferita che non ha dimenticato.",
+      "moods": ["rabbia"],
+      "spawnable": false
+    }
+  ]
+}
