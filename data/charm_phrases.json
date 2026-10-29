@@ -1,0 +1,36 @@
+{
+  "phrases": {
+    "rabbia": [
+      { "text": "Avete ragione a gridare. Il torto che avete subito sarà riparato, e chi l'ha commesso ne risponderà davanti a me." },
+      { "text": "La vostra collera è giusta, e la corona non la teme: la ascolta. Ditemi chi vi ha tradito, e avrete giustizia." },
+      { "text": "Non chiedo che abbassiate la voce. Chiedo che la uniate alla mia, contro chi vi ha derubato." }
+    ],
+    "paura": [
+      { "text": "Nessuno di voi resterà solo nella notte. Le mie guardie veglieranno sulle vostre porte come sulle mie." },
+      { "text": "Ciò che temete non varcherà queste mura finché io avrò respiro. Tornate alle vostre case: siete al sicuro." },
+      { "text": "Ho visto il buio che vi minaccia, e vi giuro che l'alba verrà. Io stessa vi aprirò la strada." }
+    ],
+    "orgoglio": [
+      { "text": "Il regno non dimentica chi lo ha costruito. Da oggi i vostri nomi saranno incisi accanto a quelli dei re." },
+      { "text": "Non vi chiedo di piegarvi. Vi chiedo di stare al mio fianco, da pari, come meritano uomini del vostro valore." },
+      { "text": "Siete il vanto di questa città, e la regina lo proclama davanti a tutti: senza di voi, nessuna corona." }
+    ]
+  },
+  "crowd_cries": {
+    "rabbia": [
+      { "text": "Basta! Ci hanno preso tutto, e ora pretendono il silenzio!", "keyword": "preso tutto" },
+      { "text": "Vogliamo giustizia, non altre promesse!", "keyword": "giustizia" },
+      { "text": "Chi ci ha tradito deve pagare!", "keyword": "tradito" }
+    ],
+    "paura": [
+      { "text": "Chi ci proteggerà quando calerà la notte?", "keyword": "proteggerà" },
+      { "text": "I nostri figli non dormono più. Abbiamo paura, Maestà!", "keyword": "paura" },
+      { "text": "Siamo soli, e nessuno viene a salvarci!", "keyword": "soli" }
+    ],
+    "orgoglio": [
+      { "text": "Siamo stati noi a costruire queste mura, e nessuno lo ricorda!", "keyword": "nessuno lo ricorda" },
+      { "text": "Non ci inchineremo a chi non ci rispetta!", "keyword": "rispetta" },
+      { "text": "Il nostro nome valeva qualcosa, una volta!", "keyword": "nome" }
+    ]
+  }
+}

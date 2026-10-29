@@ -5,6 +5,7 @@ extends RefCounted
 const BALANCE_PATH := "res://data/balance.json"
 const OUTBREAK_TYPES_PATH := "res://data/outbreak_types.json"
 const CARDS_PATH := "res://data/disturber_cards.json"
+const CHARM_PATH := "res://data/charm_phrases.json"
 
 ## Chiavi che devono esistere in balance.json. Un errore qui è meglio di un crash a metà partita.
 const REQUIRED_KEYS: Array[String] = [
@@ -40,6 +41,8 @@ const REQUIRED_KEYS: Array[String] = [
 var balance: Dictionary = {}
 var outbreak_types: Array = []
 var cards: Array = []
+## Frasi della regina e grida della folla per il minigioco del Fascino, per umore.
+var charm: Dictionary = {}
 var errors: Array[String] = []
 
 
@@ -48,6 +51,7 @@ static func load_default() -> GameConfig:
 	cfg.balance = _load_json(BALANCE_PATH, cfg.errors)
 	cfg.outbreak_types = _load_json(OUTBREAK_TYPES_PATH, cfg.errors).get("types", [])
 	cfg.cards = _load_json(CARDS_PATH, cfg.errors).get("cards", [])
+	cfg.charm = _load_json(CHARM_PATH, cfg.errors)
 	cfg.validate()
 	for e in cfg.errors:
 		push_error(e)
@@ -102,6 +106,16 @@ func validate() -> void:
 			errors.append("disturber_cards.json: una lusinga non può riguardare la ricchezza (%s)" % c.get("id", "?"))
 		if not c.has("text"):
 			errors.append("disturber_cards.json: carta senza testo %s" % c.get("id", "?"))
+
+	for mood in Defs.MOODS:
+		if charm.get("phrases", {}).get(mood, []).is_empty():
+			errors.append("charm_phrases.json: nessuna frase per l'umore '%s'" % mood)
+		var cries: Array = charm.get("crowd_cries", {}).get(mood, [])
+		if cries.is_empty():
+			errors.append("charm_phrases.json: nessun grido per l'umore '%s'" % mood)
+		for cry in cries:
+			if not String(cry.get("text", "")).contains(cry.get("keyword", "?")):
+				errors.append("charm_phrases.json: parola chiave assente dal grido '%s'" % cry.get("text", ""))
 
 
 ## Legge un valore con un percorso a punti, es. "outbreaks.rancor.intensity".
